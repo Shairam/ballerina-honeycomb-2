@@ -91,16 +91,14 @@ service<http:Service> StudentData bind listener {
        http:Response response;
        json status = {};
 
+        int rootSp = check observe:startSpan("Check span 1", tags = mp);
+        int childsp = check observe:startSpan("Check span 2", parentSpanId = rootSp);
        
-
-            
-            // int spanId2 = check observe:startSpan("Database call span");
+        int spanId2 =  observe:startRootSpan("Database call span");
 
             var selectRet = testDB->select("SELECT * FROM student", Student,loadToMemory=true); //sending a request to mysql endpoint and getting a response with required data table
 
-            //  _ = observe:finishSpan(spanId2);
-           
-
+              _ = observe:finishSpan(spanId2);
 
 
             table<Student> dt;  // a table is declared with Student as its type
@@ -134,6 +132,11 @@ service<http:Service> StudentData bind listener {
             //Sending back the converted json data to the request made to this service
             response.setJsonPayload(untaint status);
             _ = httpConnection->respond(response);
+        _ = observe:finishSpan(childsp);
+
+        _ = observe:finishSpan(rootSp);
+       
+        
     }
 
     @http:ResourceConfig {
@@ -163,6 +166,7 @@ service<http:Service> StudentData bind listener {
 
             //calling deleteData function with id as parameter and get a return json object
             var ret = deleteData(stuId);
+
 
 
             io:println(ret);
