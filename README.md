@@ -83,7 +83,9 @@ reporter.compression.enabled=false
 ``
    $ ballerina init
 ``
+- Also you need to clone and build the ballerina-zipkin-extension in the following repository [https://github.com/ballerina-platform/ballerina-observability/tree/master/tracing-extensions/modules.](https://github.com/ballerina-platform/ballerina-observability/tree/master/tracing-extensions/modules) 
 
+- After building  move to `ballerina-zipkin-extension>/target/distribution/` and copy all the jar files to your `bre/lib` folder in your ballerina distribution.
 ### Development of student and marks service with Honeycomb
 
 Now let us look into the implementation of the student management with observability.
