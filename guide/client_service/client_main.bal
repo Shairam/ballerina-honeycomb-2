@@ -6,7 +6,7 @@ endpoint http:Client studentData {
     url: " http://localhost:9292"
 };
 
-function main(string... args) {
+public function main(string... args) {
     http:Request req = new;
     int operation = 0;
     while (operation != 6) {
